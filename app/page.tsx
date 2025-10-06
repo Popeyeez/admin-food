@@ -1,7 +1,9 @@
+import { DialogDemo } from "../components/home/DialogDemo";
+
 export default function Home() {
   return (
     <div>
-      <button className="btn btn-error">OKE</button>
+      <DialogDemo />
     </div>
   );
 }
