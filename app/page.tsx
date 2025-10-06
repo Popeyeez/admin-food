@@ -1,4 +1,4 @@
-import { DialogDemo } from "../components/home/DialogDemo";
+import { DialogDemo } from "@/components/home/DialogDemo";
 
 export default function Home() {
   return (
