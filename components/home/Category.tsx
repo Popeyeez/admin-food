@@ -13,7 +13,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 
-function handleAddCategory() {}
+const addCategoryHandler = () => {};
 export const Category = () => {
   const categorys = ["pizza , ", " lunch "];
   return (
@@ -41,7 +41,9 @@ export const Category = () => {
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <Button type="submit">Add category</Button>
+              <Button onClick={addCategoryHandler} type="submit">
+                Add category
+              </Button>
             </DialogFooter>
           </DialogContent>
         </form>
