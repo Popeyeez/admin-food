@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { ChangeEvent, useState } from "react";
 import { Badge } from "../ui/badge";
 import {
   Dialog,
@@ -13,9 +14,24 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 
-const addCategoryHandler = () => {};
 export const Category = () => {
   const categorys = ["pizza , ", " lunch "];
+  const [category, setCategory] = useState<string>("");
+
+  const addCategoryHandler = () => {
+    fetch("http://localhost:4000/categorys", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        category,
+      }),
+    });
+  };
+  const categoryChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setCategory(e.target.value);
+  };
   return (
     <div className="flex items-center  flex-wrap gap-3 p-4">
       <Badge>{categorys} </Badge>
@@ -34,7 +50,13 @@ export const Category = () => {
             <div className="grid gap-4 py-10">
               <div className="grid gap-3">
                 <Label htmlFor="name-1">Category name</Label>
-                <Input id="category" placeholder="Type category name.." />
+                <Input
+                  defaultValue={category}
+                  value={category}
+                  onChange={categoryChangeHandler}
+                  id="category"
+                  placeholder="Type category name.."
+                />
               </div>
             </div>
             <DialogFooter>

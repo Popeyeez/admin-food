@@ -19,6 +19,7 @@ import { Label } from "../ui/label";
 export function DialogDemo() {
   const [foodName, setFoodName] = useState<string>("");
   const [foodPrice, setFoodPrice] = useState<number>(0);
+  const [ingredients, setIngredients] = useState<string>("");
   const addFoodHandler = () => {
     fetch("http://localhost:4000/create-food", {
       method: "POST",
@@ -26,8 +27,9 @@ export function DialogDemo() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: foodName,
-        price: foodPrice,
+        foodName,
+        foodPrice,
+        ingredients,
       }),
     });
   };
@@ -37,7 +39,9 @@ export function DialogDemo() {
   const priceChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setFoodPrice(Number(e.target.value));
   };
-
+  const IngredientsChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setIngredients(e.target.value);
+  };
   return (
     <Dialog>
       <form>
@@ -84,7 +88,15 @@ export function DialogDemo() {
 
             <div className="grid gap-3">
               <Label htmlFor="username-1">Ingredients</Label>
-              <Input id="username-1" placeholder="Ingredients" />
+              <Input
+                type="text"
+                name="Ingredients"
+                id="Ingredients"
+                placeholder="Ingredients"
+                defaultValue={ingredients}
+                value={ingredients}
+                onChange={IngredientsChangeHandler}
+              />
             </div>
             <div className="grid gap-3">
               <Label htmlFor="username-1">Food image</Label>
