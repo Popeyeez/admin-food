@@ -1,13 +1,12 @@
-import { Category } from "@/components/home/Category";
-import { DialogDemo } from "@/components/home/DialogDemo";
 import { AdminLayout } from "./_components/AdminLayout";
 
 export default function Home() {
   return (
-    <div>
-      <AdminLayout>
-        <DialogDemo />
-      </AdminLayout>
-    </div>
+    <AdminLayout>
+      <div className="flex">
+        <p>some data</p>
+        <h1>Some header</h1>
+      </div>
+    </AdminLayout>
   );
 }
