@@ -21,7 +21,7 @@ export function DialogDemo() {
   const [foodPrice, setFoodPrice] = useState<number>(0);
   const [ingredients, setIngredients] = useState<string>("");
   const addFoodHandler = () => {
-    fetch("http://localhost:4000/create-food", {
+    fetch("http://localhost:4000/api/foods", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

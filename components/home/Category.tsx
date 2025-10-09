@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Badge } from "../ui/badge";
 import {
   Dialog,
@@ -16,27 +16,45 @@ import { Button } from "../ui/button";
 
 export const Category = () => {
   const categorys = ["pizza , ", " lunch "];
-  const [category, setCategory] = useState<string>("");
+  const [categories, setCategories] = useState<string[]>([]);
+  const [newCategory, setNewCategory] = useState<string | undefined>();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const addCategoryHandler = () => {
-    fetch("http://localhost:4000/categorys", {
+  const getCategories = async () => {
+    const result = await fetch("http://localhost:4000/api/categories");
+    const responseData = await result.json();
+    const { data } = responseData;
+    setCategories(data);
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  const categoryChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewCategory(e.target.value);
+  };
+
+  const addCategoryHandler = async () => {
+    await fetch("http://localhost:4000/api/categories", {
       method: "POST",
+      mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        category,
+        newCategory,
       }),
     });
+    setModalOpen(false);
+    await getCategories();
   };
-  const categoryChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setCategory(e.target.value);
-  };
+
   return (
     <div className="flex items-center  flex-wrap gap-3 p-4">
       <Badge>{categorys} </Badge>
 
-      <Dialog>
+      <Dialog open={modalOpen}>
         <form>
           <DialogTrigger asChild>
             <div className="cursor-pointer">
@@ -51,8 +69,8 @@ export const Category = () => {
               <div className="grid gap-3">
                 <Label htmlFor="name-1">Category name</Label>
                 <Input
-                  defaultValue={category}
-                  value={category}
+                  defaultValue={categories}
+                  value={categories}
                   onChange={categoryChangeHandler}
                   id="category"
                   placeholder="Type category name.."
