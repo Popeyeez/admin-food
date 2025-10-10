@@ -63,41 +63,40 @@ export default function ProductPage() {
 
   return (
     <AdminLayout className="">
-      <div className="flex flex-wrap gap-2">
-        {categories.map((category) => (
-          <div
-            className="flex items-center border-2 rounded-full p-2 py-0"
-            key={category}
-          >
-            {category}
-            <X
-              className="hover:bg-gray-400/20 w-4"
-              onClick={() => deleteCategoryHandler(category)}
-            />
-          </div>
-        ))}
-        <Dialog open={modalOpen}>
-          <DialogTrigger asChild>
-            <Badge
-              onClick={() => setModalOpen(true)}
-              variant={"outline"}
-              className="cursor-pointer hover:bg-gray-500/20"
-            >
-              +
-            </Badge>
-          </DialogTrigger>
-          <DialogContent className="w-[463px] p-6">
-            <DialogHeader>
-              <DialogTitle>Are you absolutely sure?</DialogTitle>
-            </DialogHeader>
-            <Input
-              type="text"
-              placeholder="new category"
-              onChange={newCategoryNameChangeHandler}
-            />
-            <Button onClick={createCategoryHandler}>Create</Button>
-          </DialogContent>
-        </Dialog>
+      <div className="bg-white mx-8 rounded-md">
+        <div className="flex flex-wrap gap-2 mx-8">
+          {categories.map((category) => (
+            <div className="flex items-center" key={category}>
+              <Button variant="outline">{category}</Button>
+              <X
+                className="hover:bg-gray-400/20 w-4"
+                onClick={() => deleteCategoryHandler(category)}
+              />
+            </div>
+          ))}
+          <Dialog open={modalOpen}>
+            <DialogTrigger asChild>
+              <Badge
+                onClick={() => setModalOpen(true)}
+                variant={"outline"}
+                className="cursor-pointer hover:bg-gray-500/20"
+              >
+                +
+              </Badge>
+            </DialogTrigger>
+            <DialogContent className="w-[463px] p-6">
+              <DialogHeader>
+                <DialogTitle>Are you absolutely sure?</DialogTitle>
+              </DialogHeader>
+              <Input
+                type="text"
+                placeholder="new category"
+                onChange={newCategoryNameChangeHandler}
+              />
+              <Button onClick={createCategoryHandler}>Create</Button>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
       <CreateFoodDialog />
     </AdminLayout>
