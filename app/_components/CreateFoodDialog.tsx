@@ -33,7 +33,7 @@ export const CreateFoodDialog = () => {
     form.append("category", category);
 
     try {
-      const response = await fetch("http://localhost:4000/api/foods", {
+      const response = await fetch("http://localhost:4000/api/food", {
         method: "POST",
         body: form,
       });
@@ -71,75 +71,69 @@ export const CreateFoodDialog = () => {
     setCategory(e.target.value);
   };
   return (
-    <div className="p-8">
-      <Dialog>
-        <DialogTrigger asChild>
-          <div className="w-[270px] h-[240px] border-2 border-dashed border-[#EF4444] flex flex-col gap-2 justify-center items-center  bg-white">
-            <span className="btn btn-active btn-error">+</span>
-            <span className="w-[150px] text-center">
-              Add new Dish to Appetizers
-            </span>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Create Food</DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-4">
+          <div className="grid gap-3">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              name="name"
+              defaultValue={name}
+              value={name}
+              onChange={nameChangeHandler}
+            />
           </div>
-        </DialogTrigger>
-
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Create Food</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                name="name"
-                value={name}
-                onChange={nameChangeHandler}
-              />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="price">Price</Label>
-              <Input
-                id="price"
-                name="price"
-                type="number"
-                value={price}
-                onChange={priceChangeHandler}
-              />
-            </div>
-            <div className="grid w-full max-w-sm items-center gap-3">
-              <Label htmlFor="picture">Picture</Label>
-              <Input id="picture" type="file" onChange={fileChangeHandler} />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="ingredients">Ingredients</Label>
-              <Input
-                id="ingredients"
-                name="ingredients"
-                value={ingredients}
-                onChange={ingredientsChangeHandler}
-              />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="category">Category</Label>
-              <Input
-                id="category"
-                name="category"
-                value={category}
-                onChange={categoryChangeHandler}
-              />
-            </div>
-            <Button
-              type="submit"
-              size={"sm"}
-              className="w-fit px-4 py-[10px]"
-              onClick={addFoodHandler}
-            >
-              <p className="leading-5"> Save changes</p>
-            </Button>
+          <div className="grid gap-3">
+            <Label htmlFor="price">Price</Label>
+            <Input
+              id="price"
+              name="price"
+              type="number"
+              defaultValue="0"
+              value={price}
+              onChange={priceChangeHandler}
+            />
           </div>
-          <DialogFooter></DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+          <div className="grid w-full max-w-sm items-center gap-3">
+            <Label htmlFor="picture">Picture</Label>
+            <Input id="picture" type="file" onChange={fileChangeHandler} />
+          </div>
+          <div className="grid gap-3">
+            <Label htmlFor="ingredients">Ingredients</Label>
+            <Input
+              id="ingredients"
+              name="ingredients"
+              value={ingredients}
+              onChange={ingredientsChangeHandler}
+            />
+          </div>
+          <div className="grid gap-3">
+            <Label htmlFor="category">Category</Label>
+            <Input
+              id="category"
+              name="category"
+              value={category}
+              onChange={categoryChangeHandler}
+            />
+          </div>
+          <Button
+            type="submit"
+            size={"sm"}
+            className="w-fit px-4 py-[10px]"
+            onClick={addFoodHandler}
+          >
+            <p className="leading-5"> Save changes</p>
+          </Button>
+        </div>
+        <DialogFooter></DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };

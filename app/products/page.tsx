@@ -66,7 +66,7 @@ export default function ProductPage() {
       <div className="bg-white mx-8 rounded-md">
         <div className="flex flex-wrap gap-2 mx-8">
           {categories.map((category) => (
-            <div className="flex items-center" key={category}>
+            <div className="flex items-center">
               <Button variant="outline">{category}</Button>
               <X
                 className="hover:bg-gray-400/20 w-4"
