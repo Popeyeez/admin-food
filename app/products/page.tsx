@@ -14,17 +14,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
 
+interface Category {
+  _id: string;
+  name: string;
+}
+
 export default function ProductPage() {
-  const [categories, setCategories] = useState<string[]>([]);
-  const [newCategory, setNewCategory] = useState<string | undefined>();
+  const [newCategory, setNewCategory] = useState<string>("");
+
+  const [categories, setCategories] = useState<Category[]>([]);
+
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const getCategories = async () => {
-    const result = await fetch("http://localhost:4000/api/categories");
-    const responseData = await result.json();
-    console.log({ responseData });
-    const { data } = responseData;
-    console.log(data);
+    const res = await fetch("http://localhost:4000/api/categories");
+    const { data } = await res.json();
     setCategories(data);
   };
 
@@ -36,64 +40,77 @@ export default function ProductPage() {
     setNewCategory(e.target.value);
   };
   const createCategoryHandler = async () => {
-    await fetch("http://localhost:4000/api/categories", {
+    if (!newCategory) return;
+
+    const res = await fetch("http://localhost:4000/api/categories", {
       method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        newCategory,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: newCategory }),
     });
-    setModalOpen(false);
-    await getCategories();
   };
 
-  const deleteCategoryHandler = async (category: string) => {
-    await fetch("http://localhost:4000/api/categories/delete", {
+  const deleteCategoryHandler = async (id: string) => {
+    const res = await fetch("http://localhost:4000/api/categories/delete", {
       method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(category),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
     });
+
+    if (res.ok) {
+      setCategories((prev) => prev.filter((cat) => cat._id !== id));
+    }
   };
 
   return (
     <AdminLayout className="">
-      <div className="bg-white mx-8 rounded-md">
+      <div className="bg-white mx-8 rounded-md p-3">
         <div className="flex flex-wrap gap-2 mx-8">
           {categories.map((category) => (
-            <div className="flex items-center">
-              <Button variant="outline">{category}</Button>
+            <div
+              key={category._id}
+              className="flex items-center border border-gray-300 rounded-md p-1"
+            >
+              <Badge className="border-0" variant="outline">
+                {category.name}
+              </Badge>
               <X
-                className="hover:bg-gray-400/20 w-4"
-                onClick={() => deleteCategoryHandler(category)}
+                className="hover:bg-gray-500/20 w-4 cursor-pointer"
+                onClick={() => deleteCategoryHandler(category._id)}
               />
             </div>
           ))}
-          <Dialog open={modalOpen}>
+          <Dialog open={modalOpen} onOpenChange={setModalOpen}>
             <DialogTrigger asChild>
               <Badge
-                onClick={() => setModalOpen(true)}
-                variant={"outline"}
-                className="cursor-pointer hover:bg-gray-500/20"
+                variant="outline"
+                className="cursor-pointer hover:bg-gray-500/20 my-2"
               >
                 +
               </Badge>
             </DialogTrigger>
+
             <DialogContent className="w-[463px] p-6">
               <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                <DialogTitle>Шинэ категори нэмэх</DialogTitle>
               </DialogHeader>
+
               <Input
                 type="text"
                 placeholder="new category"
+                value={newCategory}
                 onChange={newCategoryNameChangeHandler}
               />
-              <Button onClick={createCategoryHandler}>Create</Button>
+
+              <Button
+                className="mt-4"
+                onClick={async () => {
+                  await createCategoryHandler();
+                  setModalOpen(false); // modal хаах
+                  setNewCategory(""); // input цэвэрлэх
+                }}
+              >
+                Create
+              </Button>
             </DialogContent>
           </Dialog>
         </div>
