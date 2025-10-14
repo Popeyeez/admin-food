@@ -68,11 +68,11 @@ export default function ProductPage() {
           {categories.map((category) => (
             <div
               key={category._id}
-              className="flex items-center border border-gray-300 rounded-md p-1"
+              className="flex items-center border border-gray-300 rounded-md pr-1"
             >
-              <Badge className="border-0" variant="outline">
+              <Button className="border-0" variant="outline">
                 {category.name}
-              </Badge>
+              </Button>
               <X
                 className="hover:bg-gray-500/20 w-4 cursor-pointer"
                 onClick={() => deleteCategoryHandler(category._id)}
@@ -91,7 +91,7 @@ export default function ProductPage() {
 
             <DialogContent className="w-[463px] p-6">
               <DialogHeader>
-                <DialogTitle>Шинэ категори нэмэх</DialogTitle>
+                <DialogTitle>New category</DialogTitle>
               </DialogHeader>
 
               <Input
@@ -105,8 +105,8 @@ export default function ProductPage() {
                 className="mt-4"
                 onClick={async () => {
                   await createCategoryHandler();
-                  setModalOpen(false); // modal хаах
-                  setNewCategory(""); // input цэвэрлэх
+                  setModalOpen(false);
+                  setNewCategory("");
                 }}
               >
                 Create
