@@ -11,26 +11,35 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ChangeEvent, useEffect, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Category } from "../products/page";
 
-interface Food {
+export type Food = {
   _id: string;
   name: string;
   price: number;
   ingredients: string;
   category: string;
   imageUrl: string;
-}
+};
 
 export const CreateFoodDialog = () => {
   const [image, setImage] = useState<File | undefined>();
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
   const [ingredients, setIngredients] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
   const [foods, setFoods] = useState<Food[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const addFoodHandler = async () => {
-    if (!name || !price || !ingredients || !category || !image) {
+    if (!name || !price || !ingredients || !image || !selectedCategory) {
       alert("All fields are required");
       return;
     }
@@ -39,7 +48,7 @@ export const CreateFoodDialog = () => {
     formData.append("name", name);
     formData.append("price", String(price));
     formData.append("ingredients", ingredients);
-    formData.append("category", category);
+    formData.append("category", selectedCategory);
     formData.append("image", image);
 
     try {
@@ -53,7 +62,7 @@ export const CreateFoodDialog = () => {
         setName("");
         setPrice(0);
         setIngredients("");
-        setCategory("");
+        setSelectedCategory(null);
         setImage(undefined);
       } else {
         alert(data.error);
@@ -73,8 +82,15 @@ export const CreateFoodDialog = () => {
     setFoods(foodsArray);
   };
 
+  const getCategories = async () => {
+    const response = await fetch("http://localhost:4000/api/categories");
+    const data = await response.json();
+    setCategories(data.data);
+  };
+
   useEffect(() => {
     getFoods();
+    getCategories();
   }, []);
 
   const fileChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -111,13 +127,23 @@ export const CreateFoodDialog = () => {
                 />
               </div>
 
-              <div className="grid gap-1">
-                <Label htmlFor="category">Category</Label>
-                <Input
-                  id="category"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                />
+              <div className="grid gap-3">
+                {categories.length > 0 && (
+                  <Select onValueChange={(value) => setSelectedCategory(value)}>
+                    <SelectTrigger className="w-full border border-b-gray-400">
+                      <SelectValue placeholder="Select Category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((category) => {
+                        return (
+                          <SelectItem key={category._id} value={category._id}>
+                            {category.name}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                )}
               </div>
 
               <div className="grid gap-1">
@@ -169,7 +195,7 @@ export const CreateFoodDialog = () => {
                 className="w-full h-30 object-cover rounded"
               />
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               <span className="font-medium text-[14px] text-[#EF4444]">
                 {food.name}
               </span>

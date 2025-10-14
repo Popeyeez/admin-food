@@ -14,10 +14,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
 
-interface Category {
+export type Category = {
   _id: string;
   name: string;
-}
+};
 
 export default function ProductPage() {
   const [newCategory, setNewCategory] = useState<string>("");
@@ -27,9 +27,9 @@ export default function ProductPage() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const getCategories = async () => {
-    const res = await fetch("http://localhost:4000/api/categories");
-    const { data } = await res.json();
-    setCategories(data);
+    const response = await fetch("http://localhost:4000/api/categories");
+    const data = await response.json();
+    setCategories(data.data);
   };
 
   useEffect(() => {
