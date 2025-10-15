@@ -57,14 +57,14 @@ export default function ProductPage() {
     });
 
     if (res.ok) {
-      setCategories((prev) => prev.filter((cat) => cat._id !== id));
+      setCategories((prev) => prev.filter((category) => category._id !== id));
     }
   };
 
   return (
     <AdminLayout className="">
       <div className="bg-white mx-8 rounded-md p-3">
-        <div className="flex flex-wrap gap-2 mx-8">
+        <div className="flex flex-wrap gap-2">
           {categories.map((category) => (
             <div
               key={category._id}
@@ -81,12 +81,12 @@ export default function ProductPage() {
           ))}
           <Dialog open={modalOpen} onOpenChange={setModalOpen}>
             <DialogTrigger asChild>
-              <Badge
+              <Button
                 variant="outline"
-                className="cursor-pointer hover:bg-gray-500/20 my-2"
+                className="btn btn-active btn-error rounded-full bg-red-400 text-white cursor-pointer"
               >
                 +
-              </Badge>
+              </Button>
             </DialogTrigger>
 
             <DialogContent className="w-[463px] p-6">

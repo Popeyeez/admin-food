@@ -19,6 +19,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Category } from "../products/page";
+import { MdOutlineEdit } from "react-icons/md";
+import { FiEdit2 } from "react-icons/fi";
 
 export type Food = {
   _id: string;
@@ -105,7 +107,9 @@ export const CreateFoodDialog = () => {
         <Dialog>
           <DialogTrigger asChild>
             <div className="w-[270px] h-[240px] border-2 border-dashed border-[#EF4444] flex flex-col gap-2 justify-center items-center bg-white">
-              <span className="btn btn-active btn-error">+</span>
+              <span className="btn btn-active btn-error text-white hover:bg-gray-200 hover:text-black">
+                +
+              </span>
               <span className="w-[150px] text-center">
                 Add new Dish to Appetizers
               </span>
@@ -194,7 +198,13 @@ export const CreateFoodDialog = () => {
                 alt={food.name}
                 className="w-full h-30 object-cover rounded"
               />
+              <div className="flex -mt-12 ml-43">
+                <Button className="bg-white rounded-2xl cursor-pointer hover:bg-gray-300">
+                  <FiEdit2 color="red" />
+                </Button>
+              </div>
             </div>
+
             <div className="flex justify-between items-center">
               <span className="font-medium text-[14px] text-[#EF4444]">
                 {food.name}
