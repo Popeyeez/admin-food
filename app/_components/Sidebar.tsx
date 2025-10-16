@@ -1,6 +1,6 @@
 export const Sidebar = () => {
   return (
-    <div className="bg-white w-1/6 h-screen">
+    <div className="bg-white w-1/6 ">
       <div className="flex flex-col py-10 pl-15">
         <span className="font-bold text-[18px]">NomNom</span>
         <span>Swift delievery</span>

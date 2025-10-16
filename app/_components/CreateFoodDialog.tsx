@@ -10,38 +10,23 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ChangeEvent, useEffect, useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Category } from "../products/page";
-import { MdOutlineEdit } from "react-icons/md";
-import { FiEdit2 } from "react-icons/fi";
+import { ChangeEvent, useState } from "react";
 
-export type Food = {
-  _id: string;
-  name: string;
-  price: number;
-  ingredients: string;
-  category: string;
-  imageUrl: string;
-};
-
-export const CreateFoodDialog = () => {
+export const CreateFoodDialog = ({
+  categoryId,
+  refetchFoods,
+}: {
+  categoryId: string;
+  refetchFoods: () => Promise<void>;
+}) => {
   const [image, setImage] = useState<File | undefined>();
   const [name, setName] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
   const [ingredients, setIngredients] = useState<string>("");
-  const [foods, setFoods] = useState<Food[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [open, setOpen] = useState<boolean>(closed);
 
   const addFoodHandler = async () => {
-    if (!name || !price || !ingredients || !image || !selectedCategory) {
+    if (!name || !price || !ingredients || !image) {
       alert("All fields are required");
       return;
     }
@@ -50,8 +35,8 @@ export const CreateFoodDialog = () => {
     formData.append("name", name);
     formData.append("price", String(price));
     formData.append("ingredients", ingredients);
-    formData.append("category", selectedCategory);
     formData.append("image", image);
+    formData.append("categoryId", categoryId);
 
     try {
       const res = await fetch("http://localhost:4000/api/foods", {
@@ -61,10 +46,11 @@ export const CreateFoodDialog = () => {
       const data = await res.json();
       if (res.ok) {
         alert("Food created successfully!");
+        await refetchFoods();
+        setOpen(false);
         setName("");
         setPrice(0);
         setIngredients("");
-        setSelectedCategory(null);
         setImage(undefined);
       } else {
         alert(data.error);
@@ -74,26 +60,25 @@ export const CreateFoodDialog = () => {
     }
   };
 
-  const getFoods = async () => {
-    const res = await fetch("http://localhost:4000/api/foods");
-    const json = await res.json();
+  // const getFoods = async () => {
+  //   const res = await fetch("http://localhost:4000/api/foods");
+  //   const json = await res.json();
 
-    console.log("foods response:", json);
+  //   console.log("foods response:", json);
 
-    const foodsArray = json.data || json.foods || json;
-    setFoods(foodsArray);
-  };
+  //   const foodsArray = json.data || json.foods || json;
+  //   setFoods(foodsArray);
+  // };
 
-  const getCategories = async () => {
-    const response = await fetch("http://localhost:4000/api/categories");
-    const data = await response.json();
-    setCategories(data.data);
-  };
+  // const getCategories = async () => {
+  //   const response = await fetch("http://localhost:4000/api/categories");
+  //   const data = await response.json();
+  //   setCategories(data.data);
+  // };
 
-  useEffect(() => {
-    getFoods();
-    getCategories();
-  }, []);
+  // useEffect(() => {
+  //   getFoods();
+  // }, []);
 
   const fileChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -104,7 +89,7 @@ export const CreateFoodDialog = () => {
   return (
     <div>
       <div className="flex p-8 gap-4 flex-wrap">
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <div className="w-[270px] h-[240px] border-2 border-dashed border-[#EF4444] flex flex-col gap-2 justify-center items-center bg-white">
               <span className="btn btn-active btn-error text-white hover:bg-gray-200 hover:text-black">
@@ -131,7 +116,7 @@ export const CreateFoodDialog = () => {
                 />
               </div>
 
-              <div className="grid gap-3">
+              {/* <div className="grid gap-3">
                 {categories.length > 0 && (
                   <Select onValueChange={(value) => setSelectedCategory(value)}>
                     <SelectTrigger className="w-full border border-b-gray-400">
@@ -148,7 +133,7 @@ export const CreateFoodDialog = () => {
                     </SelectContent>
                   </Select>
                 )}
-              </div>
+              </div> */}
 
               <div className="grid gap-1">
                 <Label htmlFor="ingredients">Ingredients</Label>
@@ -187,7 +172,7 @@ export const CreateFoodDialog = () => {
           </DialogContent>
         </Dialog>
 
-        {foods.map((food) => (
+        {/* {foods.map((food) => (
           <div
             key={food._id}
             className="w-[270px] h-[240px] border-2 border-gray-300 rounded-md p-5"
@@ -199,7 +184,10 @@ export const CreateFoodDialog = () => {
                 className="w-full h-30 object-cover rounded"
               />
               <div className="flex -mt-12 ml-43">
-                <Button className="bg-white rounded-2xl cursor-pointer hover:bg-gray-300">
+                <Button
+                  onClick={editFoodHandler}
+                  className="bg-white rounded-2xl cursor-pointer hover:bg-gray-300"
+                >
                   <FiEdit2 color="red" />
                 </Button>
               </div>
@@ -215,7 +203,7 @@ export const CreateFoodDialog = () => {
             </div>
             <span className="text-[12px] font-medium">{food.ingredients}</span>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );

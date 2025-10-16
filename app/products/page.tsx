@@ -1,7 +1,5 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
 import { AdminLayout } from "../_components/AdminLayout";
-import { CreateFoodDialog } from "../_components/CreateFoodDialog";
 import {
   Dialog,
   DialogContent,
@@ -13,18 +11,16 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
-
-export type Category = {
-  _id: string;
-  name: string;
-};
+import { CategoryType, FoodType } from "@/lib/types";
+import { CategorizedFoods } from "../_components/CategorizedFoods";
 
 export default function ProductPage() {
   const [newCategory, setNewCategory] = useState<string>("");
 
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [foods, setFoods] = useState<FoodType[]>([]);
 
   const getCategories = async () => {
     const response = await fetch("http://localhost:4000/api/categories");
@@ -32,8 +28,17 @@ export default function ProductPage() {
     setCategories(data.data);
   };
 
+  const getFoods = async () => {
+    const res = await fetch("http://localhost:4000/api/foods");
+    const json = await res.json();
+
+    const foodsArray = json.data || json.foods || json;
+    setFoods(foodsArray);
+  };
+
   useEffect(() => {
     getCategories();
+    getFoods();
   }, []);
 
   const newCategoryNameChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +52,7 @@ export default function ProductPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: newCategory }),
     });
+    getCategories();
   };
 
   const deleteCategoryHandler = async (id: string) => {
@@ -115,7 +121,16 @@ export default function ProductPage() {
           </Dialog>
         </div>
       </div>
-      <CreateFoodDialog />
+      {categories.map((category) => {
+        return (
+          <CategorizedFoods
+            key={category._id}
+            refetchFoods={() => getFoods()}
+            foods={foods.filter((food) => food.categoryId._id == category._id)}
+            category={category}
+          />
+        );
+      })}
     </AdminLayout>
   );
 }
