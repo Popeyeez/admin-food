@@ -12,11 +12,12 @@ export const CategorizedFoods = ({
   category: CategoryType;
   refetchFoods: () => Promise<void>;
 }) => {
+  console.log(foods);
   return (
     <div className="bg-white rounded-md mx-8 mt-5 border">
       <div className="p-4 rounded-lg bg-white">
         <h2>{category.name}</h2>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-8 p-8 items-center">
           <CreateFoodDialog
             categoryId={category._id}
             refetchFoods={refetchFoods}

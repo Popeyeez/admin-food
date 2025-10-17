@@ -126,7 +126,7 @@ export default function ProductPage() {
           <CategorizedFoods
             key={category._id}
             refetchFoods={() => getFoods()}
-            foods={foods.filter((food) => food.categoryId._id == category._id)}
+            foods={foods.filter((food) => food.categoryId == category._id)}
             category={category}
           />
         );
