@@ -50,10 +50,12 @@ export default function Page() {
   const getFoods = async () => {
     const res = await fetch("https://backend-food-seven.vercel.app/api/foods");
     const json = await res.json();
-
+    console.log("foods json:", json);
     const foodsArray = Array.isArray(json.data) ? json.data : [];
     setFoods(foodsArray);
   };
+  console.log("foods:");
+
   useEffect(() => {
     getCategories();
     getFoods();
