@@ -51,7 +51,7 @@ export default function Page() {
     const res = await fetch("https://backend-food-seven.vercel.app/api/foods");
     const json = await res.json();
 
-    const foodsArray = json.data || json.foods || json;
+    const foodsArray = Array.isArray(json.data) ? json.data : [];
     setFoods(foodsArray);
   };
   useEffect(() => {
