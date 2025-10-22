@@ -32,13 +32,15 @@ export default function Page() {
   }, [route]);
 
   const getCategories = async () => {
-    const response = await fetch("http://localhost:4000/api/categories");
+    const response = await fetch(
+      "https://backend-food-seven.vercel.app/api/categories"
+    );
     const data = await response.json();
     setCategories(data.data);
   };
 
   const getFoods = async () => {
-    const res = await fetch("http://localhost:4000/api/foods");
+    const res = await fetch("https://backend-food-seven.vercel.app/api/foods");
     const json = await res.json();
 
     const foodsArray = json.data || json.foods || json;
