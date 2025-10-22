@@ -42,9 +42,9 @@ export default function Page() {
   const getFoods = async () => {
     const res = await fetch("https://backend-food-seven.vercel.app/api/foods");
     const json = await res.json();
-
-    const foodsArray = json.data || json.foods || json;
-    setFoods(foodsArray);
+    if (Array.isArray(json.data)) {
+      setFoods(json.data);
+    }
   };
 
   useEffect(() => {
