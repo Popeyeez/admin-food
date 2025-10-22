@@ -54,7 +54,6 @@ export default function Page() {
     const foodsArray = Array.isArray(json.data) ? json.data : [];
     setFoods(foodsArray);
   };
-  console.log("foods:");
 
   useEffect(() => {
     getCategories();
@@ -152,7 +151,7 @@ export default function Page() {
           <CategorizedFoods
             key={category._id}
             refetchFoods={() => getFoods()}
-            foods={foods.filter((food) => food.categoryId == category._id)}
+            foods={foods.filter((food) => food.categoryId._id == category._id)}
             category={category}
           />
         );
