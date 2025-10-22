@@ -151,7 +151,11 @@ export default function Page() {
           <CategorizedFoods
             key={category._id}
             refetchFoods={() => getFoods()}
-            foods={foods.filter((food) => food.categoryId._id == category._id)}
+            foods={foods.filter((food) =>
+              typeof food.categoryId === "string"
+                ? food.categoryId === category._id
+                : food.categoryId?._id === category._id
+            )}
             category={category}
           />
         );

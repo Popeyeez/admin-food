@@ -3,7 +3,7 @@ export type FoodType = {
   name: string;
   price: number;
   ingredients: string;
-  categoryId: CategoryType;
+  categoryId: string | CategoryType;
   imageUrl: string;
 };
 
