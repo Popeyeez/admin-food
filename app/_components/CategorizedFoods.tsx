@@ -17,7 +17,7 @@ export const CategorizedFoods = ({
     <div className="bg-white rounded-md mx-8 mt-5 border">
       <div className="p-4 rounded-lg bg-white">
         <h2 className="font-semibold text-[30px] mx-8 capitalize">
-          {category.name}
+          {category?.name}
         </h2>
         <div className="flex flex-wrap gap-8 p-8 items-center">
           <CreateFoodDialog
