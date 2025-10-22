@@ -48,7 +48,7 @@ const Page = () => {
   return (
     <div className="h-screen flex flex-wrap w-full justify-between p-20">
       <div className="w-60 flex flex-col gap-3 justify-center">
-        <h3 className="text-[22px] pb-5 font-semibold">Log in</h3>
+        <h3 className="text-[22px] pb-5 font-semibold">Login</h3>
         <p>Email</p>
         <Input
           type="email"
