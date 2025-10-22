@@ -16,16 +16,19 @@ const Page = () => {
     if (password !== confirmPassword) {
       setError("Passwords do not match");
     }
-    const result = await fetch("http://localhost:4000/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    const result = await fetch(
+      "https://backend-food-seven.vercel.app/api/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      }
+    );
     console.log("User created:", result);
   };
   const onLogin = () => {

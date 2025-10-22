@@ -58,20 +58,26 @@ export default function Page() {
   const createCategoryHandler = async () => {
     if (!newCategory) return;
 
-    const res = await fetch("http://localhost:4000/api/categories", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: newCategory }),
-    });
+    const res = await fetch(
+      "https://backend-food-seven.vercel.app/api/categories",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newCategory }),
+      }
+    );
     getCategories();
   };
 
   const deleteCategoryHandler = async (id: string) => {
-    const res = await fetch("http://localhost:4000/api/categories/delete", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
+    const res = await fetch(
+      "https://backend-food-seven.vercel.app/api/categories/delete",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      }
+    );
 
     if (res.ok) {
       setCategories((prev) => prev.filter((category) => category._id !== id));

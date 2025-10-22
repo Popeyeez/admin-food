@@ -39,10 +39,13 @@ export const CreateFoodDialog = ({
     formData.append("categoryId", categoryId);
 
     try {
-      const res = await fetch("http://localhost:4000/api/foods", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://backend-food-seven.vercel.app/api/foods",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const data = await res.json();
       if (res.ok) {
         alert("Food created successfully!");

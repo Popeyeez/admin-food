@@ -19,16 +19,19 @@ const Page = () => {
   }, []);
 
   const onLogin = async () => {
-    const result = await fetch("http://localhost:4000/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
+    const result = await fetch(
+      "https://backend-food-seven.vercel.app/api/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      }
+    );
     const response = await result.json();
     if (response.success) {
       localStorage.setItem("userEmail", email);

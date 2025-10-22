@@ -23,13 +23,15 @@ export default function ProductPage() {
   const [foods, setFoods] = useState<FoodType[]>([]);
 
   const getCategories = async () => {
-    const response = await fetch("http://localhost:4000/api/categories");
+    const response = await fetch(
+      "https://backend-food-seven.vercel.app/api/categories"
+    );
     const data = await response.json();
     setCategories(data.data);
   };
 
   const getFoods = async () => {
-    const res = await fetch("http://localhost:4000/api/foods");
+    const res = await fetch("https://backend-food-seven.vercel.app/api/foods");
     const json = await res.json();
 
     const foodsArray = json.data || json.foods || json;
@@ -47,20 +49,26 @@ export default function ProductPage() {
   const createCategoryHandler = async () => {
     if (!newCategory) return;
 
-    const res = await fetch("http://localhost:4000/api/categories", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: newCategory }),
-    });
+    const res = await fetch(
+      "https://backend-food-seven.vercel.app/api/categories",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newCategory }),
+      }
+    );
     getCategories();
   };
 
   const deleteCategoryHandler = async (id: string) => {
-    const res = await fetch("http://localhost:4000/api/categories/delete", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
+    const res = await fetch(
+      "https://backend-food-seven.vercel.app/api/categories/delete",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      }
+    );
 
     if (res.ok) {
       setCategories((prev) => prev.filter((category) => category._id !== id));
