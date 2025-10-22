@@ -39,14 +39,6 @@ export default function Page() {
     setCategories(data.data);
   };
 
-  // const getFoods = async () => {
-  //   const res = await fetch("https://backend-food-seven.vercel.app/api/foods");
-  //   const json = await res.json();
-  //   if (Array.isArray(json.data)) {
-  //     setFoods(json.data);
-  //   }
-  // };
-
   const getFoods = async () => {
     const res = await fetch("https://backend-food-seven.vercel.app/api/foods");
     const json = await res.json();
